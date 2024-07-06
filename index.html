@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Have Brainrot?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #22ffff;
+            --secondary-color: #ff0050;
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #22ffff;
+            --text-shadow: #ff0050;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: var(--surface-color);
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--secondary-color);
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .medical-symbol {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h1, .subtitle, .question p, label, button, #result {
+            color: var(--text-color);
+            text-shadow: 2px 2px 4px var(--text-shadow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .question {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            font-size: 1rem;
+            line-height: 25px;
+            display: inline-block;
+        }
+
+        label:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            background: var(--surface-color);
+        }
+
+        input[type="radio"]:checked + label:after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff3377;
+            transform: translateY(-2px);
+        }
+
+        #result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="medical-symbol">⚕️</div>
+            <h1>Do You Have Brainrot?</h1>
+            <p class="subtitle">Answer accurately.</p>
+        </header>
+        <main>
+            <div id="quiz">
+                <div class="question">
+                    <p>1. How frequently do you engage with short-form video content platforms?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1a" value="0">
+                            <label for="q1a">Rarely or never</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1b" value="1">
+                            <label for="q1b">A few times a week</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1c" value="2">
+                            <label for="q1c">Daily, for brief periods</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1d" value="3">
+                            <label for="q1d">Several hours daily</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>2. How would you characterize your attention span?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2a" value="0">
+                            <label for="q2a">I can maintain focus for extended periods</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2b" value="1">
+                            <label for="q2b">Average</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2c" value="2">
+                            <label for="q2c">I am easily distracted</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2d" value="3">
+                            <label for="q2d">Extremely short, unable to focus for more than a few minutes</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>3. How often do you experience feelings of boredom?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3a" value="0">
+                            <label for="q3a">Rarely</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3b" value="1">
+                            <label for="q3b">Occasionally</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3c" value="2">
+                            <label for="q3c">Frequently</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3d" value="3">
+                            <label for="q3d">Almost constantly</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>4. How would you describe your current interest in long-form content (e.g., movies, TV series)?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4a" value="0">
+                            <label for="q4a">I enjoy them as much as ever</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4b" value="1">
+                            <label for="q4b">I still engage, but less frequently</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4c" value="2">
+                            <label for="q4c">I struggle to maintain interest for the duration</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4d" value="3">
+                            <label for="q4d">I have lost interest entirely</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>5. How frequently do you experience feelings of anxiety or low mood?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5a" value="0">
+                            <label for="q5a">Rarely or never</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5b" value="1">
+                            <label for="q5b">Occasionally</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5c" value="2">
+                            <label for="q5c">Frequently</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5d" value="3">
+                            <label for="q5d">Almost constantly</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="calculateResult()">Analyze Results</button>
+            <div id="result"></div>
+        </main>
+    </div>
+
+    <script>
+        function calculateResult() {
+            let total = 0;
+            for (let i = 1; i <= 5; i++) {
+                let question = document.getElementsByName('q' + i);
+                for (let j = 0; j < question.length; j++) {
+                    if (question[j].checked) {
+                        total += parseInt(question[j].value);
+                    }
+                }
+            }
+            
+            let result = "";
+            if (total <= 3) {
+                result = "Good news! Your digital habits appear to be well-balanced. You're likely not experiencing 'brainrot'.";
+            } else if (total <= 7) {
+                result = "Your digital habits show some areas for improvement. You might be experiencing mild symptoms of 'brainrot'.";
+            } else if (total <= 11) {
+                result = "Your assessment indicates potential concerns. You may be experiencing moderate 'brainrot'. Consider reassessing your digital habits.";
+            } else {
+                result = "Your results suggest a significant impact from your digital habits. You might be experiencing severe 'brainrot'. It may be beneficial to seek support and make lifestyle changes.";
+            }
+            
+            document.getElementById('result').innerHTML = result;
+            document.getElementById('result').classList.add('show');
+        }
+    </script>
+</body>
+</html>
